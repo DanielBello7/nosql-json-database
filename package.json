@@ -1,0 +1,43 @@
+{
+  "name": "nosql-json-database",
+  "version": "1.0.0",
+  "description": "package for building simple nosql databases using json files",
+  "main": "./build/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielBello7/nosql-json-database.git"
+  },
+  "scripts": {
+    "test": "mocha --require ts-node/register --watch-extensions ts __tests__/**/*.ts",
+    "build": "tsc"
+  },
+  "types": "build/index.d.ts",
+  "keywords": [
+    "json",
+    "database",
+    "json-database",
+    "files",
+    "nosql",
+    "javascript",
+    "typescript",
+    "local",
+    "document",
+    "data"
+  ],
+  "author": "Daniel Bello",
+  "license": "ISC",
+  "dependencies": {
+    "@types/pluralize": "^0.0.33",
+    "@types/uuid": "^9.0.7",
+    "pluralize": "^8.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.11",
+    "@types/mocha": "^10.0.6",
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0"
+  }
+}
