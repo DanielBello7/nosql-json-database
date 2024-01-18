@@ -24,6 +24,26 @@ export default class Container extends Database implements NoSQLJsonDatabaseCont
     this.createDatabase();
   }
 
+  protected getFunctionCallingLocation = (): string => {
+    function getLocationFromAnonymous(): string | null {
+      const stack = new Error().stack?.split("\n") as string[];
+      for (const line of stack) {
+        if (line.includes('<anonymous>')) {
+          const file = line.split(" (")[1].split(':').slice(0, -2).join(':')
+          return path.dirname(file);
+        }
+      }
+      return null;
+    }
+    function standard(): string {
+      const stack = new Error().stack;
+      const callerFile = stack?.split('\n')[2].split(' (')[1].split(':').slice(0, -2).join(':');
+      const folderLocation = path.dirname(callerFile!);
+      return folderLocation;
+    }
+    return getLocationFromAnonymous() ?? standard();
+  }
+
   /**
    * checks for all current database collections within memory
    */

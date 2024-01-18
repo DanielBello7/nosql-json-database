@@ -1,30 +1,30 @@
-export type JsonDatabaseMetadata = {
+export type NoSQLJsonDatabaseMetadata = {
     _id: string;
     createdAt: string | Date;
     updatedAt: string | Date;
 };
-export type JsonDatabaseDocument<T extends Record<string, unknown>> = T & JsonDatabaseMetadata;
-export interface JsonDatabaseContainer {
+export type NoSQLJsonDatabaseDocument<T extends Record<string, unknown>> = T & NoSQLJsonDatabaseMetadata;
+export interface NoSQLJsonDatabaseContainer {
     deleteDatabase: () => void;
     resetDatabase: () => void;
     deleteCollection: (title: string) => void;
     createDatabase: () => void;
-    createCollection: <T extends Record<string, unknown>>(name: string) => JsonDatabaseCollection<T>;
+    createCollection: <T extends Record<string, unknown>>(name: string) => NoSQLJsonDatabaseCollection<T>;
 }
-export interface JsonDatabaseCollection<T extends Record<string, unknown>> {
-    find: (data?: Partial<JsonDatabaseDocument<T>>) => JsonDatabaseDocument<T>[];
-    findAndPopulate: (populatePath: string | string[]) => JsonDatabaseDocument<T>[];
-    findOne: (value: Partial<JsonDatabaseDocument<T>>) => JsonDatabaseDocument<T> | undefined;
-    findOneAndPopulate: (value: Partial<JsonDatabaseDocument<T>>, populatePath: string | string[]) => JsonDatabaseDocument<T> | undefined;
-    findOneById: (id: string) => JsonDatabaseDocument<T> | undefined;
-    findOneByIdAndPopulate: (id: string, populatePath: string | string[]) => JsonDatabaseDocument<T> | undefined;
+export interface NoSQLJsonDatabaseCollection<T extends Record<string, unknown>> {
+    find: (data?: Partial<NoSQLJsonDatabaseDocument<T>>) => NoSQLJsonDatabaseDocument<T>[];
+    findAndPopulate: (populatePath: string | string[]) => NoSQLJsonDatabaseDocument<T>[];
+    findOne: (value: Partial<NoSQLJsonDatabaseDocument<T>>) => NoSQLJsonDatabaseDocument<T> | undefined;
+    findOneAndPopulate: (value: Partial<NoSQLJsonDatabaseDocument<T>>, populatePath: string | string[]) => NoSQLJsonDatabaseDocument<T> | undefined;
+    findOneById: (id: string) => NoSQLJsonDatabaseDocument<T> | undefined;
+    findOneByIdAndPopulate: (id: string, populatePath: string | string[]) => NoSQLJsonDatabaseDocument<T> | undefined;
     deleteOneUsingId: (_id: string) => void;
-    updateOneUsingId: (_id: string, updates: Partial<T>) => JsonDatabaseDocument<T>;
-    addOne: (data: T) => JsonDatabaseDocument<T>;
-    addMany: (data: T[]) => JsonDatabaseDocument<T>[];
+    updateOneUsingId: (_id: string, updates: Partial<T>) => NoSQLJsonDatabaseDocument<T>;
+    addOne: (data: T) => NoSQLJsonDatabaseDocument<T>;
+    addMany: (data: T[]) => NoSQLJsonDatabaseDocument<T>[];
     resetModel: () => void;
 }
-export type JsonDatabaseID = {
+export type NoSQLJsonDatabaseID = {
     _id: string;
     collection: string;
     uuid: string;

@@ -37,13 +37,6 @@ export default class Database {
     }
   }
 
-  protected getFunctionCallingLocation = (): string => {
-    const stack = new Error().stack;
-    const callerFile = stack?.split('\n')[2].split(' (')[1].split(':').slice(0, -2).join(':');
-    const folderLocation = path.dirname(callerFile!);
-    return folderLocation;
-  }
-
   protected createDatabaseFile = (fileURL: string): void => {
     try {
       const result = fileService.existsSync(fileURL);
