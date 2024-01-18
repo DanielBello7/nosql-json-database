@@ -1,4 +1,4 @@
-import type { JsonDatabaseDocument } from "./index.types";
+import type { NoSQLJsonDatabaseDocument } from "./index.types";
 import fileService from "fs";
 import path from "path";
 import ensureError from "./ensure-error";
@@ -88,7 +88,7 @@ export default class Database {
 
   protected readFromCollectionFile = <T extends Record<string, unknown>>(
     modelFolderLocation: string, modelName: string
-  ): JsonDatabaseDocument<T>[] => {
+  ): NoSQLJsonDatabaseDocument<T>[] => {
     const fileURL = this.getCollectionFilePath(modelFolderLocation, modelName);
     const fileContents = fileService.readFileSync(fileURL, "utf-8").trim();
     try {

@@ -1,17 +1,17 @@
-import Container from "./json-database-container";
+import Container from "./nosql-json-database-container";
 
 import type {
-  JsonDatabaseCollection,
-  JsonDatabaseDocument,
-  JsonDatabaseContainer,
-  JsonDatabaseMetadata,
+  NoSQLJsonDatabaseCollection,
+  NoSQLJsonDatabaseDocument,
+  NoSQLJsonDatabaseContainer,
+  NoSQLJsonDatabaseMetadata,
 } from "./index.types"
 
 export type {
-  JsonDatabaseCollection as JsonDatabaseCollectionType,
-  JsonDatabaseDocument as JsonDatabaseDocumentType,
-  JsonDatabaseContainer as JsonDatabaseType,
-  JsonDatabaseMetadata,
+  NoSQLJsonDatabaseCollection as JsonDatabaseCollectionType,
+  NoSQLJsonDatabaseDocument as JsonDatabaseDocumentType,
+  NoSQLJsonDatabaseContainer as JsonDatabaseType,
+  NoSQLJsonDatabaseMetadata as JsonDatabaseMetadata,
 }
 
 export {

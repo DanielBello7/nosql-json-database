@@ -1,11 +1,11 @@
-import { JsonDatabaseCollection, JsonDatabaseDocument, JsonDatabaseID } from "./index.types";
+import { NoSQLJsonDatabaseCollection, NoSQLJsonDatabaseDocument, NoSQLJsonDatabaseID } from "./index.types";
 import { flattenObject, unflattenObject } from "./update-object";
 import { v4 as uuid, validate } from "uuid";
-import Database from "./json-database";
+import Database from "./nosql-json-database";
 import updateObject from "./update-object";
-import Container from "./json-database-container";
+import Container from "./nosql-json-database-container";
 
-export default class Collection<T extends Record<string, unknown>> extends Database implements JsonDatabaseCollection<T> {
+export default class Collection<T extends Record<string, unknown>> extends Database implements NoSQLJsonDatabaseCollection<T> {
   private collectionTitle: string;
   private collectionContainer: Container;
   private collectionFolder: string
@@ -37,7 +37,7 @@ export default class Collection<T extends Record<string, unknown>> extends Datab
    * @param id string
    * @returns { _id: string; collection: string; uuid: string }
    */
-  private confirmId = (id: string): JsonDatabaseID => {
+  private confirmId = (id: string): NoSQLJsonDatabaseID => {
     const states = id.split("://");
     if (![2].includes(states.length) || states[0] !== "json")
       throw new Error("id not a json-database id");
@@ -85,7 +85,7 @@ export default class Collection<T extends Record<string, unknown>> extends Datab
    * @param data Partial<JsonDatabaseDocumentType<T>>
    * @returns JsonDatabaseDocumentType<T>[]
    */
-  find = (data?: Partial<JsonDatabaseDocument<T>>): JsonDatabaseDocument<T>[] => {
+  find = (data?: Partial<NoSQLJsonDatabaseDocument<T>>): NoSQLJsonDatabaseDocument<T>[] => {
     const files = this.readFromCollectionFile<T>(this.collectionContainer.folderLocation, this.collectionTitle);
     if (data) {
       const filtered = files.filter((item) => {
@@ -104,12 +104,12 @@ export default class Collection<T extends Record<string, unknown>> extends Datab
    * @param data {field: string; model: string}
    * @returns JsonDatabaseDocumentType<T>[]
    */
-  findAndPopulate = (populatedPath: string | string[]): JsonDatabaseDocument<T>[] => {
+  findAndPopulate = (populatedPath: string | string[]): NoSQLJsonDatabaseDocument<T>[] => {
     const data = this.find();
     const populated = data.map((item) => {
       if (typeof populatedPath === "string") {
         const result = this.populate(item, populatedPath);
-        return result as JsonDatabaseDocument<T>
+        return result as NoSQLJsonDatabaseDocument<T>
       } else {
         let result: any = item;
         for (let i = 0; i < populatedPath.length; i++)
@@ -126,7 +126,7 @@ export default class Collection<T extends Record<string, unknown>> extends Datab
    * @param value Partial<T>
    * @returns JsonDatabaseDocumentType<T> | undefined
    */
-  findOne = (value: Partial<JsonDatabaseDocument<T>>): JsonDatabaseDocument<T> | undefined => {
+  findOne = (value: Partial<NoSQLJsonDatabaseDocument<T>>): NoSQLJsonDatabaseDocument<T> | undefined => {
     const data = this.find();
     const selected = data.find((item) => {
       const confirmation = Object.keys(value).every(obj1 => {
@@ -144,18 +144,18 @@ export default class Collection<T extends Record<string, unknown>> extends Datab
    * @param data 
    * @returns { field: string; model: string }
    */
-  findOneAndPopulate = (value: Partial<JsonDatabaseDocument<T>>, populatedPath: string | string[]): JsonDatabaseDocument<T> | undefined => {
+  findOneAndPopulate = (value: Partial<NoSQLJsonDatabaseDocument<T>>, populatedPath: string | string[]): NoSQLJsonDatabaseDocument<T> | undefined => {
     const selectedData = this.findOne(value);
     if (!selectedData) return undefined
 
     if (typeof populatedPath === "string") {
       const result = this.populate(selectedData, populatedPath);
-      return result as JsonDatabaseDocument<T>
+      return result as NoSQLJsonDatabaseDocument<T>
     } else {
       let result: any = selectedData;
       for (let i = 0; i < populatedPath.length; i++)
         result = this.populate(result, populatedPath[i]);
-      return result as JsonDatabaseDocument<T>;
+      return result as NoSQLJsonDatabaseDocument<T>;
     }
   }
 
@@ -164,7 +164,7 @@ export default class Collection<T extends Record<string, unknown>> extends Datab
    * @param id string
    * @returns JsonDatabaseDocumentType<T> | undefined
    */
-  findOneById = (id: string): JsonDatabaseDocument<T> | undefined => {
+  findOneById = (id: string): NoSQLJsonDatabaseDocument<T> | undefined => {
     if (typeof id !== "string")
       throw new Error("type of id should be a string");
 
@@ -180,17 +180,17 @@ export default class Collection<T extends Record<string, unknown>> extends Datab
    * @param data { field: string; model: string }
    * @returns JsonDatabaseDocumentType<T> | undefined
    */
-  findOneByIdAndPopulate = (id: string, populatedPath: string | string[]): JsonDatabaseDocument<T> | undefined => {
+  findOneByIdAndPopulate = (id: string, populatedPath: string | string[]): NoSQLJsonDatabaseDocument<T> | undefined => {
     const selectedData = this.findOneById(id);
     if (!selectedData) return undefined
     if (typeof populatedPath === "string") {
       const result = this.populate(selectedData, populatedPath);
-      return result as JsonDatabaseDocument<T>
+      return result as NoSQLJsonDatabaseDocument<T>
     } else {
       let result: any = selectedData;
       for (let i = 0; i < populatedPath.length; i++)
         result = this.populate(result, populatedPath[i]);
-      return result as JsonDatabaseDocument<T>;
+      return result as NoSQLJsonDatabaseDocument<T>;
     }
   }
 
@@ -199,7 +199,7 @@ export default class Collection<T extends Record<string, unknown>> extends Datab
    * @param data T
    * @returns JsonDatabaseDocumentType<T>
    */
-  addOne = (data: T): JsonDatabaseDocument<T> => {
+  addOne = (data: T): NoSQLJsonDatabaseDocument<T> => {
     if (typeof data !== "object")
       throw new Error("type object required");
 
@@ -221,7 +221,7 @@ export default class Collection<T extends Record<string, unknown>> extends Datab
    * @param data T[]
    * @returns JsonDatabaseDocumentType<T>[]
    */
-  addMany = (data: T[]): JsonDatabaseDocument<T>[] => {
+  addMany = (data: T[]): NoSQLJsonDatabaseDocument<T>[] => {
     const response = data.map((item) => {
       return this.addOne(item);
     });
@@ -247,7 +247,7 @@ export default class Collection<T extends Record<string, unknown>> extends Datab
    * @param updates Partial<T>
    * @returns JsonDatabaseDocumentType<T>
    */
-  updateOneUsingId = (id: string, updates: Partial<T>): JsonDatabaseDocument<T> => {
+  updateOneUsingId = (id: string, updates: Partial<T>): NoSQLJsonDatabaseDocument<T> => {
     if (typeof id !== "string")
       throw new Error("type of id should be a string");
 
@@ -256,7 +256,7 @@ export default class Collection<T extends Record<string, unknown>> extends Datab
 
     const updatedData = this.find().map((item) => {
       if (item._id !== id) return item;
-      const updated = updateObject<JsonDatabaseDocument<T>>(item, updates as JsonDatabaseDocument<T>);
+      const updated = updateObject<NoSQLJsonDatabaseDocument<T>>(item, updates as NoSQLJsonDatabaseDocument<T>);
       const { _id, createdAt, ...rest } = updated;
       item = { ...item, ...rest, updatedAt: new Date().toISOString() }
       return item

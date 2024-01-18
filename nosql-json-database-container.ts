@@ -1,11 +1,11 @@
-import type { JsonDatabaseContainer } from "./index.types";
-import JsonDatabaseCollection from "./json-database-collection";
+import type { NoSQLJsonDatabaseContainer } from "./index.types";
+import JsonDatabaseCollection from "./nosql-json-database-collection";
 import pluralize from "pluralize";
 import fs from "fs";
-import Database from "./json-database";
+import Database from "./nosql-json-database";
 import path from "path";
 
-export default class Container extends Database implements JsonDatabaseContainer {
+export default class Container extends Database implements NoSQLJsonDatabaseContainer {
   protected loc?: string;
   public collections: string[] = []
   public folderLocation: string;

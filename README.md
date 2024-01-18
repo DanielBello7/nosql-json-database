@@ -1,14 +1,14 @@
-# JSON Database
+# NoSQL JSON Database
 
 <p align=center>
-  JSON Database is a quick setup database for <a href="http://nodejs.org">node</a> and the browser that can be delightfully paired with any javascript testing framework.
+  NoSQL JSON Database is a quick setup database for <a href="http://nodejs.org">node</a> and the browser that can be delightfully paired with any javascript testing framework.
 </p>
 
 ## Installation
 
 ### Node.js
 
-`json-database` is available on [npm](http://npmjs.org). To install it, type:
+`nosql-json-database` is available on [npm](http://npmjs.org). To install it, type:
 
     $ npm install --save-dev json-database
 
@@ -28,7 +28,7 @@ structures to be implemented.
 import `Container` from the package folder and use to create the container for the database
 
 ```javascript
-import { Container } from "json-database";
+import { Container } from "nosql-json-database";
 
 const database = new Container();
 const usersCollection = database.createCollection("users");
@@ -40,7 +40,7 @@ const usersCollection = database.createCollection("users");
 You can specify the location where all the database files would be contained
 
 ```javascript
-import { Container } from "json-database";
+import { Container } from "nosql-json-database";
 import path from "path";
 
 const location = path.join(__dirname, "/");
@@ -54,7 +54,7 @@ It is recommended to specify the type as a model basis for the data to be contai
 this would help in intellisence and also when performing operations
 
 ```javascript
-import { Container } from "json-database";
+import { Container } from "nosql-json-database";
 
 type Users = {
   name: string;
@@ -70,7 +70,7 @@ const usersCollection = database.createCollection<Users>("users");
 ## Adding Documents
 
 ```javascript
-import { Container } from "json-database";
+import { Container } from "nosql-json-database";
 
 type Users = {
   name: string;
@@ -95,7 +95,7 @@ added to the newly inserted document.
 The _id is generated from using `Date.now()`
 
 ```javascript
-import { Container } from "json-database";
+import { Container } from "nosql-json-database";
 
 type Users = {
   name: string;
@@ -130,7 +130,7 @@ console.log(response);
 A document can be populated by specifying the field to be populated. The JSON database would handle the matching of the collections
 
 ```javascript
-import { Container } from "json-database";
+import { Container } from "nosql-json-database";
 
 type Users = {
   name: stringl;
