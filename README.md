@@ -10,7 +10,7 @@
 
 `nosql-json-database` is available on [npm](http://npmjs.org). To install it, type:
 
-    $ npm install --save-dev json-database
+    $ npm install --save-dev nosql-json-database
 
 ## Why?
 
@@ -92,7 +92,7 @@ usersCollection.addOne({
 
 In addition to storing the data provided, an _id along with createdAt and updatedAt information is
 added to the newly inserted document.
-The _id is generated from using `Date.now()`
+The _id is generated from using `uuid`
 
 ```javascript
 import { Container } from "nosql-json-database";
